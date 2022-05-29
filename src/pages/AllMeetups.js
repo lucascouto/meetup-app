@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import MeetupList from "../components/meetups/MeetupList";
 
@@ -7,18 +8,19 @@ function AllMeetupsPage() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(
-      "https://react-meetup-app-7d585-default-rtdb.firebaseio.com/meetups.json"
-    )
-      .then((response) => response.json())
-      .then((data) => {
+    axios
+      .get(
+        "https://react-meetup-app-7d585-default-rtdb.firebaseio.com/meetups.json"
+      )
+      .then((response) => {
         const meetups = [];
 
-        for (const key in data) {
+        for (const key in response.data) {
           const meetup = {
             id: key,
-            ...data[key],
+            ...response.data[key],
           };
+
           meetups.push(meetup);
         }
 
